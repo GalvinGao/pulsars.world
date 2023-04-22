@@ -35,6 +35,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_PAGES_EDIT_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: pulsars-space
+          projectName: pulsars-world
           directory: dist
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
