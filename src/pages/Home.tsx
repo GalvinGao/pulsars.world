@@ -1,13 +1,12 @@
-import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
+import { PerspectiveCamera, TrackballControls } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import { Bloom, EffectComposer } from '@react-three/postprocessing'
 import { DevelopmentUtils } from 'components/DevelopmentUtils'
 import Head from 'components/Head'
 import { Pulsars } from 'components/Pulsars'
 import { TransformedPulsar, getPulsars } from 'models/pulsars'
 import { ReactElement, useLayoutEffect, useState } from 'react'
 
-function PulsarLoader(): ReactElement {
+function PulsarLoader(): ReactElement | null {
 	const [pulsars, setPulsars] = useState<TransformedPulsar[]>([])
 
 	useLayoutEffect(() => {
@@ -17,7 +16,7 @@ function PulsarLoader(): ReactElement {
 	}, [])
 
 	if (pulsars.length === 0) {
-		return <> </>
+		return null
 	}
 
 	return <Pulsars pulsars={pulsars} />
@@ -48,14 +47,14 @@ export default function HomePage(): ReactElement {
 					<meshStandardMaterial color='red' emissiveIntensity={0.2} />
 				</mesh>
 				<PerspectiveCamera makeDefault position={[0, 0, 10]} />
-				<OrbitControls minDistance={3} maxDistance={1e3} />
-				<EffectComposer>
+				<TrackballControls noRotate />
+				{/* <EffectComposer>
 					<Bloom
 						luminanceThreshold={0.1}
 						luminanceSmoothing={0.9}
 						intensity={1.5}
 					/>
-				</EffectComposer>
+				</EffectComposer> */}
 				{import.meta.env.DEV && <DevelopmentUtils />}
 			</Canvas>
 		</>
