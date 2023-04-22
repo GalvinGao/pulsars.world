@@ -47,7 +47,12 @@ export default function HomePage(): ReactElement {
 					<meshStandardMaterial color='red' emissiveIntensity={0.2} />
 				</mesh>
 				<PerspectiveCamera makeDefault position={[0, 0, 10]} />
-				<TrackballControls noRotate />
+				<TrackballControls
+					noRotate
+					zoomSpeed={0.5}
+					minDistance={0}
+					maxDistance={3000}
+				/>
 				{/* <EffectComposer>
 					<Bloom
 						luminanceThreshold={0.1}
