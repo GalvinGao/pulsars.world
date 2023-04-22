@@ -1,5 +1,6 @@
-import { Text, shaderMaterial } from '@react-three/drei'
-import { extend } from '@react-three/fiber'
+import { shaderMaterial } from '@react-three/drei'
+import { MaterialNode, extend } from '@react-three/fiber'
+import Pulsar from 'components/Pulsar'
 import { TransformedPulsar } from 'models/pulsars'
 import * as THREE from 'three'
 
@@ -29,6 +30,16 @@ const MeshGlowingMaterial = shaderMaterial(
 )
 
 extend({ MeshGlowingMaterial })
+
+// Add types to ThreeElements elements so primitives pick up on it
+declare module '@react-three/fiber' {
+	interface ThreeElements {
+		meshGlowingMaterial: MaterialNode<
+			THREE.ShaderMaterial,
+			typeof MeshGlowingMaterial
+		>
+	}
+}
 
 export function Pulsars({ pulsars }: { pulsars: TransformedPulsar[] }) {
 	// const reference = useRef<InstancedMesh | null | undefined>(undefined)
@@ -60,20 +71,31 @@ export function Pulsars({ pulsars }: { pulsars: TransformedPulsar[] }) {
 		// </group>
 		<group>
 			{pulsars.map((pulsar, index) => (
-				<mesh
-					key={pulsar.id}
+				// <mesh
+				// 	key={pulsar.id}
+				// 	position={[
+				// 		pulsar.position!.x * scaleFactor,
+				// 		pulsar.position!.y * scaleFactor,
+				// 		pulsar.position!.z * scaleFactor
+				// 	]}
+				// >
+				// 	<sphereGeometry args={[0.25]} />
+				// 	<meshGlowingMaterial />
+				// 	<Text position={[0, 0.8, 0]} scale={[0.4, 0.4, 0.4]}>
+				// 		{pulsar.name}, {(pulsar.distanceKpc ?? 0) * 1000}pc
+				// 	</Text>
+				// </mesh>
+				<Pulsar
 					position={[
 						pulsar.position!.x * scaleFactor,
 						pulsar.position!.y * scaleFactor,
 						pulsar.position!.z * scaleFactor
 					]}
-				>
-					<sphereGeometry args={[0.25]} />
-					<meshGlowingMaterial />
-					<Text position={[0, 0.8, 0]} scale={[0.4, 0.4, 0.4]}>
-						{pulsar.name}, {(pulsar.distanceKpc ?? 0) * 1000}pc
-					</Text>
-				</mesh>
+					scale={1}
+					pulsePeriod={pulsar.periodS}
+					intensity={5}
+					key={pulsar.id}
+				/>
 			))}
 		</group>
 	)

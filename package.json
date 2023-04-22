@@ -25,6 +25,7 @@
 		"@react-three/postprocessing": "^2.7.1",
 		"@tanstack/react-query": "4.28.0",
 		"@types/three": "^0.150.2",
+		"babel-plugin-glsl": "^1.0.0",
 		"camelcase-keys": "^8.0.2",
 		"csv-generate": "^4.2.4",
 		"csv-parse": "^5.3.8",
