@@ -81,7 +81,7 @@ export function Pulsar({
 				time: { value: 0 },
 				pulsePeriod: { value: pulsePeriod },
 				pulseDuration: { value: pulseDuration },
-				minIntensity: { value: 0.2 },
+				minIntensity: { value: 0.03 },
 				maxIntensity: { value: 1 },
 				glowRadius: { value: 0.5 },
 				glowFalloff: { value: 0.5 }
