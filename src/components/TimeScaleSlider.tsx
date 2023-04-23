@@ -25,7 +25,7 @@ export function TimeScaleSlider() {
 				<SliderThumb />
 			</Slider>
 
-			<div>{(timeScale * 100).toFixed(0)}% of normal time</div>
+			<div>Time: {timeScale.toFixed(2)}x</div>
 		</div>
 	)
 }
