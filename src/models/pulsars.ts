@@ -1,6 +1,5 @@
 import camelcaseKeys from 'camelcase-keys'
-import { parse } from 'csv-parse/browser/esm'
-import pulsarsCsv from '../assets/pulsars.csv?raw'
+import pulsarsJson from '../assets/pulsars.json'
 
 // csv: id   ,name         ,right_ascension  ,right_ascension_err ,declination      ,declination_err ,period_s              ,period_s_err ,dm         ,dm_err ,distance_kpc ,distance_dm_kpc
 // be sure to use camelcaseKeys
@@ -112,25 +111,23 @@ function transformPulsarCoordinates(pulsar: Pulsar): TransformedPulsar {
 	}
 }
 
-export const getPulsars = async (): Promise<TransformedPulsar[]> => {
+export const pulsars: TransformedPulsar[] = (() => {
 	console.log('getting pulsars')
-	const rows = (
-		(await new Promise((resolve, reject) => {
-			parse(pulsarsCsv, { columns: true }, (error, results: any) => {
-				if (error) {
-					reject(error)
-				} else {
-					resolve(results)
-				}
-			})
-		})) as Pulsar[]
-	)
+	const rows = (pulsarsJson as unknown as Pulsar[])
 		.map(row => camelcaseKeys(row, { deep: true }))
 		.map(row => {
 			return transformPulsarCoordinates(row)
 		})
+		.filter(
+			row =>
+				row.dm !== null && !Number.isNaN(row.periodS) && !Number.isNaN(row.dm)
+		)
 
 	console.log(rows)
 
 	return rows
-}
+})()
+
+export const pulsarsById: Map<string, TransformedPulsar> = new Map(
+	pulsars.map(row => [row.id.toString(), row])
+)

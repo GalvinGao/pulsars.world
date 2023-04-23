@@ -1,6 +1,6 @@
 // Pulsar.tsx
-import { extend, useFrame } from '@react-three/fiber'
-import { FC, useEffect, useMemo, useRef } from 'react'
+import { extend, useFrame, useThree } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import { ShaderMaterial } from 'three'
 
 extend({ ShaderMaterial })
@@ -16,14 +16,28 @@ const pulsarMaterialShader = {
 	fragmentShader: `
     uniform float time;
     uniform float pulsePeriod;
-    uniform float intensity;
+    uniform float maxIntensity;
+    uniform float minIntensity;
+    uniform float pulseDuration;
+    uniform float glowRadius;
+    uniform float glowFalloff;
     varying vec3 vUv;
 
     void main() {
       float distance = length(vUv);
-      float pulse = sin(time * 2.0 * 3.14159265 / pulsePeriod);
-      float pulseValue = step(0.9, pulse);
-      gl_FragColor = vec4(vec3(intensity * pulseValue), 1.0);
+      float pulse = mod(time, pulsePeriod);
+      float pulseValue = 1.0 - smoothstep(0.0, pulseDuration, pulse);
+      
+      // Calculate the intensity without the glow effect
+      float baseIntensity = mix(minIntensity, maxIntensity, pulseValue);
+      
+      // Calculate glow effect based on the distance and falloff
+      float glow = smoothstep(glowRadius, glowRadius - glowFalloff, distance);
+      
+      // Combine the intensity and glow for the final output color
+      float intensity = baseIntensity + (maxIntensity - baseIntensity) * glow;
+      float alpha = mix(minIntensity, 1.0, intensity);
+      gl_FragColor = vec4(vec3(intensity), alpha);
     }
   `
 }
@@ -32,24 +46,31 @@ interface PulsarProperties {
 	position: [number, number, number]
 	scale: number
 	pulsePeriod: number
+	pulseDuration: number
 	intensity: number
 }
 
-export const Pulsar: FC<PulsarProperties> = ({
+export function Pulsar({
 	position,
 	scale,
 	pulsePeriod,
+	pulseDuration,
 	intensity
-}) => {
+}: PulsarProperties) {
 	const material = useRef<ShaderMaterial>(null)
 	const mesh = useRef<THREE.Mesh>(null)
 
-	useEffect(() => {
-		material.current.uniforms.pulsePeriod.value = pulsePeriod
-		material.current.uniforms.intensity.value = intensity
-	}, [pulsePeriod, intensity])
+	// useEffect(() => {
+	// 	if (!material.current || !mesh.current) return
+
+	// 	material.current.uniforms.pulsePeriod.value = pulsePeriod
+	// 	material.current.uniforms.intensity.value = intensity
+	// }, [pulsePeriod, intensity])
+	const controls = useThree(state => state.controls) as any
 
 	useFrame(({ clock }) => {
+		if (!material.current) return
+
 		material.current.uniforms.time.value = clock.getElapsedTime()
 	})
 
@@ -59,14 +80,48 @@ export const Pulsar: FC<PulsarProperties> = ({
 			uniforms: {
 				time: { value: 0 },
 				pulsePeriod: { value: pulsePeriod },
-				intensity: { value: intensity }
+				pulseDuration: { value: pulseDuration },
+				minIntensity: { value: 0.2 },
+				maxIntensity: { value: 1 },
+				glowRadius: { value: 0.5 },
+				glowFalloff: { value: 0.5 }
 			}
 		}
-	}, [pulsePeriod, intensity])
+	}, [pulsePeriod, pulseDuration])
 
 	return (
-		<mesh ref={mesh} position={position} scale={[scale, scale, scale]}>
-			<sphereBufferGeometry args={[1, 32, 32]} />
+		<mesh
+			ref={mesh}
+			position={position}
+			scale={[scale, scale, scale]}
+			onClick={() => {
+				console.log('clicked', {
+					position,
+					scale,
+					pulsePeriod,
+					pulseDuration,
+					intensity
+				})
+
+				// controls.panCamera({
+				// 	x: position[0],
+				// 	y: position[1],
+				// 	z: position[2] + 5
+				// })
+				// controls.zoomCamera(1.1)
+				// controls.rotateCamera(0, 0.1)
+
+				// controls.update()
+
+				// but controls is a CameraControls object
+
+				console.log(controls)
+				controls.moveTo(position[0], position[1], position[2] + 5, true)
+				controls.zoomTo(1.1, true)
+				controls.dollyTo(1.1, true)
+			}}
+		>
+			<sphereGeometry args={[1, 8, 8]} />
 			<shaderMaterial
 				ref={material}
 				attach='material'

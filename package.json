@@ -20,6 +20,9 @@
 		"validate": "run-p lint test:ci test:e2e:headless"
 	},
 	"dependencies": {
+		"@chakra-ui/react": "^2.5.5",
+		"@emotion/react": "^11.10.6",
+		"@emotion/styled": "^11.10.6",
 		"@react-three/drei": "^9.65.4",
 		"@react-three/fiber": "^8.12.2",
 		"@react-three/postprocessing": "^2.7.1",
@@ -29,6 +32,8 @@
 		"camelcase-keys": "^8.0.2",
 		"csv-generate": "^4.2.4",
 		"csv-parse": "^5.3.8",
+		"framer-motion": "^10.12.4",
+		"jotai": "^2.0.4",
 		"nice-color-palettes": "^3.0.0",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",

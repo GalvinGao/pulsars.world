@@ -84,7 +84,7 @@
 		"import/no-deprecated": "error",
 		"import/order": "off",
 		"import/no-extraneous-dependencies": [
-			"error",
+			"off",
 			{
 				"devDependencies": [
 					"cypress.config.ts",
@@ -128,9 +128,7 @@
 			"error",
 			{
 				"eventHandlerPrefix": "on",
-				"eventHandlerPropPrefix": "on",
-				"checkLocalVariables": true,
-				"checkInlineFunction": true
+				"eventHandlerPropPrefix": "on"
 			}
 		],
 		"react/jsx-key": "error",

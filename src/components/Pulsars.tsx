@@ -1,6 +1,6 @@
-import { shaderMaterial } from '@react-three/drei'
-import { MaterialNode, extend } from '@react-three/fiber'
 import Pulsar from 'components/Pulsar'
+import { useAtom } from 'jotai'
+import { objectScaleAtom, timeScaleAtom } from 'models/atoms'
 import { TransformedPulsar } from 'models/pulsars'
 import * as THREE from 'three'
 
@@ -8,40 +8,9 @@ const o = new THREE.Object3D()
 
 const scaleFactor = 2e2
 
-const MeshGlowingMaterial = shaderMaterial(
-	{ glowFalloff: 2 },
-	`varying vec3 vNormal;
-  void main() {
-    vNormal = normalize(normalMatrix * normal);
-    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
-  }`,
-	`varying vec3 vNormal;
-  uniform float glowFalloff;
-  void main() {
-    vec3 light = vec3(0, 1, 0);
-    float intensity = pow(dot(vNormal, light), glowFalloff);
-    // vec3 baseColor = vec3(0.0, 1.0, 0.0);
-    // vec3 glowColor = vec3(1.0, 0.0, 0.0);
-		vec3 baseColor = vec3(1.0, 1.0, 1.0);
-    vec3 glowColor = vec3(1.0, 1.0, 1.0);
-    vec3 finalColor = mix(baseColor, glowColor, intensity);
-    gl_FragColor = vec4(finalColor, 1.0);
-  }`
-)
-
-extend({ MeshGlowingMaterial })
-
-// Add types to ThreeElements elements so primitives pick up on it
-declare module '@react-three/fiber' {
-	interface ThreeElements {
-		meshGlowingMaterial: MaterialNode<
-			THREE.ShaderMaterial,
-			typeof MeshGlowingMaterial
-		>
-	}
-}
-
 export function Pulsars({ pulsars }: { pulsars: TransformedPulsar[] }) {
+	const [timeScale] = useAtom(timeScaleAtom)
+	const [objectScale] = useAtom(objectScaleAtom)
 	// const reference = useRef<InstancedMesh | null | undefined>(undefined)
 	// useLayoutEffect(() => {
 	// 	if (!reference.current) return
@@ -70,7 +39,7 @@ export function Pulsars({ pulsars }: { pulsars: TransformedPulsar[] }) {
 		// 	</instancedMesh>
 		// </group>
 		<group>
-			{pulsars.map((pulsar, index) => (
+			{pulsars.map(pulsar => (
 				// <mesh
 				// 	key={pulsar.id}
 				// 	position={[
@@ -91,10 +60,14 @@ export function Pulsars({ pulsars }: { pulsars: TransformedPulsar[] }) {
 						pulsar.position!.y * scaleFactor,
 						pulsar.position!.z * scaleFactor
 					]}
-					scale={1}
-					pulsePeriod={pulsar.periodS}
-					intensity={5}
-					key={pulsar.id}
+					scale={objectScale}
+					pulsePeriod={pulsar.periodS * (1 / timeScale)}
+					pulseDuration={Math.max(
+						pulsar.periodS * (1 / timeScale) * 1e-2,
+						1 / 45
+					)}
+					intensity={1}
+					key={pulsar.id + ' ' + timeScale}
 				/>
 			))}
 		</group>
