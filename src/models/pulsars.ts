@@ -50,16 +50,35 @@ export type Pulsar = {
 }
 
 function hmsToDegrees(hms: string): number {
-	const [hours, minutes, seconds] = hms
-		.split(':')
-		.map(n => Number.parseFloat(n))
+	// eslint-disable-next-line prefer-const
+	let [hours, minutes, seconds] = hms.split(':').map(n => Number.parseFloat(n))
+	if (seconds === undefined) {
+		seconds = 0
+	} else if (seconds.toString().includes('.')) {
+		const [secondsWithoutFraction, fraction] = seconds.toString().split('.')
+		seconds = Number.parseFloat(`${secondsWithoutFraction}.${fraction}`)
+	}
 	return (hours + minutes / 60 + seconds / 3600) * 15
 }
 
 function dmsToDecimalDegrees(dms: string): number {
-	const [degrees, arcminutes, arcseconds] = dms
+	// eslint-disable-next-line prefer-const
+	let [degrees, arcminutes, arcseconds] = dms
 		.split(':')
 		.map(n => Number.parseFloat(n))
+	if (degrees < 0) {
+		arcminutes = Math.abs(arcminutes)
+		arcseconds = Math.abs(arcseconds)
+	}
+	if (arcminutes === undefined) {
+		arcminutes = 0
+	}
+	if (arcseconds === undefined) {
+		arcseconds = 0
+	} else if (arcseconds.toString().includes('.')) {
+		const [secondsWithoutFraction, fraction] = arcseconds.toString().split('.')
+		arcseconds = Number.parseFloat(`${secondsWithoutFraction}.${fraction}`)
+	}
 	const sign = degrees >= 0 ? 1 : -1
 	return degrees + sign * (arcminutes / 60 + arcseconds / 3600)
 }

@@ -24,16 +24,22 @@ export function SelectedPulsarEffect() {
 
 		const position = transformPosition(selectedPulsar.position)
 
-		console.log(controls)
-
 		console.log('current:', {
 			rotation: controls.azimuthAngle,
 			polar: controls.polarAngle
 		})
 
+		console.log('moving', selectedPulsar, 'to:', {
+			x: position.x,
+			y: position.y,
+			z: position.z
+		})
+
 		controls.moveTo(position.x, position.y, position.z, true)
 		controls.dollyTo(10, true)
 		controls.rotateTo(0, Math.PI / 2, true)
+
+		window.controls = controls
 	}, [selectedPulsar, controls, objectScale])
 
 	return null

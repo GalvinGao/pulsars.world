@@ -88,6 +88,19 @@ export function PulsarFacts({
 							{
 								label: 'Distance (derived DM)',
 								children: `${pulsar.raw.distanceDmKpc} Kpc`
+							},
+							{
+								label: 'SIMBAD',
+								children: (
+									<a
+										href={`http://simbad.u-strasbg.fr/simbad/sim-basic?Ident=PSR%20${pulsar.identifier}&submit=SIMBAD+search`}
+										target='_blank'
+										rel='noreferrer'
+										className='underline'
+									>
+										Link
+									</a>
+								)
 							}
 						]}
 					/>
