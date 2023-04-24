@@ -25,7 +25,7 @@ export function TimeScaleSlider() {
 				<SliderThumb />
 			</Slider>
 
-			<div>Time: {timeScale.toFixed(2)}x</div>
+			<div className='whitespace-nowrap'>Time: {timeScale.toFixed(2)}x</div>
 		</div>
 	)
 }

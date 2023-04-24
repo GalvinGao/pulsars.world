@@ -8,6 +8,11 @@ const config = {
 		fontFamily: {
 			sans: ['IBM Plex Sans', ...defaultConfig.theme.fontFamily.sans],
 			mono: ['IBM Plex Mono', ...defaultConfig.theme.fontFamily.mono]
+		},
+		extend: {
+			transitionDuration: {
+				DEFAULT: '150ms'
+			}
 		}
 	},
 	experimental: { optimizeUniversalDefaults: true },

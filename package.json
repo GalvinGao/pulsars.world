@@ -32,6 +32,7 @@
 		"@types/three": "^0.150.2",
 		"babel-plugin-glsl": "^1.0.0",
 		"camelcase-keys": "^8.0.2",
+		"clsx": "^1.2.1",
 		"csv-generate": "^4.2.4",
 		"csv-parse": "^5.3.8",
 		"framer-motion": "^10.12.4",

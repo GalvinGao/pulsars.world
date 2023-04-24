@@ -1,16 +1,12 @@
 import PulsarObject from 'components/Pulsar'
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
 import { objectScaleAtom, timeScaleAtom } from 'models/atoms'
 import { Pulsar } from 'models/pulsars'
-import * as THREE from 'three'
-
-const o = new THREE.Object3D()
-
-const scaleFactor = 2e2
+import { transformPosition } from 'utils'
 
 export function Pulsars({ pulsars }: { pulsars: Pulsar[] }) {
-	const [timeScale] = useAtom(timeScaleAtom)
-	const [objectScale] = useAtom(objectScaleAtom)
+	const timeScale = useAtomValue(timeScaleAtom)
+	const objectScale = useAtomValue(objectScaleAtom)
 	// const reference = useRef<InstancedMesh | null | undefined>(undefined)
 	// useLayoutEffect(() => {
 	// 	if (!reference.current) return
@@ -39,7 +35,7 @@ export function Pulsars({ pulsars }: { pulsars: Pulsar[] }) {
 		// 	</instancedMesh>
 		// </group>
 		<group>
-			{pulsars.map(pulsar => (
+			{pulsars.map(pulsar => {
 				// <mesh
 				// 	key={pulsar.id}
 				// 	position={[
@@ -54,23 +50,24 @@ export function Pulsars({ pulsars }: { pulsars: Pulsar[] }) {
 				// 		{pulsar.name}, {(pulsar.distanceKpc ?? 0) * 1000}pc
 				// 	</Text>
 				// </mesh>
-				<PulsarObject
-					id={pulsar.identifier}
-					position={[
-						pulsar.position!.x * scaleFactor,
-						pulsar.position!.y * scaleFactor,
-						pulsar.position!.z * scaleFactor
-					]}
-					scale={objectScale}
-					pulsePeriod={pulsar.periodS * (1 / timeScale)}
-					pulseDuration={Math.max(
-						pulsar.periodS * (1 / timeScale) * 1e-2,
-						1 / 45
-					)}
-					intensity={1}
-					key={pulsar.identifier + '_' + timeScale}
-				/>
-			))}
+
+				const position = transformPosition(pulsar.position)
+
+				return (
+					<PulsarObject
+						id={pulsar.identifier}
+						position={[position.x, position.y, position.z]}
+						scale={objectScale}
+						pulsePeriod={pulsar.periodS * (1 / timeScale)}
+						pulseDuration={Math.max(
+							pulsar.periodS * (1 / timeScale) * 1e-2,
+							1 / 45
+						)}
+						intensity={1}
+						key={pulsar.identifier + '_' + timeScale}
+					/>
+				)
+			})}
 		</group>
 	)
 }

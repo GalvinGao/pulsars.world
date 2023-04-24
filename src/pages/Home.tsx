@@ -6,6 +6,7 @@ import Head from 'components/Head'
 import { Pulsars } from 'components/Pulsars'
 import { PulsarsList } from 'components/PulsarsList'
 import { SelectedPulsar } from 'components/SelectedPulsar'
+import { SelectedPulsarEffect } from 'components/SelectedPulsarEffect'
 import { TimeScaleSlider } from 'components/TimeScaleSlider'
 import { pulsars } from 'models/pulsars'
 import { ReactElement } from 'react'
@@ -39,6 +40,7 @@ export default function HomePage(): ReactElement {
 					/>
 				</EffectComposer>
 				{import.meta.env.DEV && <DevelopmentUtils />}
+				<SelectedPulsarEffect />
 			</Canvas>
 
 			<div className='absolute bottom-0 left-0 right-0 flex items-center bg-slate-900 p-4'>

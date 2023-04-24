@@ -45,6 +45,8 @@ export type Pulsar = {
 		y: number
 		z: number
 	}
+
+	raw: PulsarRaw
 }
 
 function hmsToDegrees(hms: string): number {
@@ -104,20 +106,18 @@ function transformPulsarCoordinates(pulsar: PulsarRaw): Pulsar | null {
 			const z = distanceKpc * Math.sin(declinationRad)
 
 			return { x, y, z }
-		})()
+		})(),
+		raw: pulsar
 	}
 }
 
 export const pulsars: Pulsar[] = (() => {
-	console.log('getting pulsars')
 	const rows = (pulsarsJson as unknown as PulsarRaw[])
 		.map(row => camelcaseKeys(row, { deep: true }))
 		.map(row => {
 			return transformPulsarCoordinates(row)
 		})
 		.filter(row => row !== null) as Pulsar[]
-
-	console.log(rows)
 
 	return rows
 })()

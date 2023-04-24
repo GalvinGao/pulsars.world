@@ -1,5 +1,5 @@
 // Pulsar.tsx
-import { extend, useFrame, useThree } from '@react-three/fiber'
+import { extend, useFrame } from '@react-three/fiber'
 import { useAtom } from 'jotai'
 import { selectedPulsarIdAtom } from 'models/atoms'
 import { useMemo, useRef } from 'react'
@@ -72,8 +72,6 @@ export function PulsarObject({
 	// 	material.current.uniforms.intensity.value = intensity
 	// }, [pulsePeriod, intensity])
 
-	const controls = useThree(state => state.controls) as any
-
 	useFrame(({ clock }) => {
 		if (!material.current) return
 
@@ -104,10 +102,6 @@ export function PulsarObject({
 				console.log('clicked pulsar', id)
 
 				setSelectedPulsarId(id)
-
-				controls.moveTo(position[0], position[1], position[2] + 5, true)
-				controls.zoomTo(1.1, true)
-				controls.dollyTo(1.1, true)
 			}}
 		>
 			<sphereGeometry args={[1, 8, 8]} />

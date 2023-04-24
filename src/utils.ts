@@ -20,3 +20,14 @@ export function useMediaQuery(query: string): boolean {
 
 	return matches
 }
+
+export function transformPosition(
+	position: { x: number; y: number; z: number },
+	scaleFactor = 2e2
+): { x: number; y: number; z: number } {
+	return {
+		x: position.x * scaleFactor,
+		y: position.y * scaleFactor,
+		z: position.z * scaleFactor
+	}
+}

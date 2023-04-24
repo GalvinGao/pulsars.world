@@ -1,0 +1,13 @@
+.anim-pulsar {
+	animation: anim-pulsar ease-out infinite 1s;
+}
+
+@keyframes anim-pulsar {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0.05;
+	}
+}
