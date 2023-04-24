@@ -3,7 +3,7 @@ import pulsarsJson from '../assets/pulsars.json'
 
 // csv: id   ,name         ,right_ascension  ,right_ascension_err ,declination      ,declination_err ,period_s              ,period_s_err ,dm         ,dm_err ,distance_kpc ,distance_dm_kpc
 // be sure to use camelcaseKeys
-export type Pulsar = {
+export type PulsarRaw = {
 	id: string
 	name: string
 	// right ascension (hms).
@@ -27,9 +27,8 @@ export type Pulsar = {
 	distanceDmKpc: string | null
 }
 
-export type TransformedPulsar = {
-	id: number
-	name: string
+export type Pulsar = {
+	identifier: string
 	rightAscension: number
 	rightAscensionErr: number
 	declination: number
@@ -41,7 +40,7 @@ export type TransformedPulsar = {
 	distanceKpc: number | null
 	distanceDmKpc: number | null
 
-	position?: {
+	position: {
 		x: number
 		y: number
 		z: number
@@ -67,16 +66,18 @@ function degreesToRadians(degrees: number): number {
 	return degrees * (Math.PI / 180)
 }
 
-function transformPulsarCoordinates(pulsar: Pulsar): TransformedPulsar {
+function transformPulsarCoordinates(pulsar: PulsarRaw): Pulsar | null {
+	if (!pulsar.distanceKpc || pulsar.dm === '*' || pulsar.periodS === '*') {
+		return null
+	}
+
 	const rightAscension = hmsToDegrees(pulsar.rightAscension)
 	const declination = dmsToDecimalDegrees(pulsar.declination)
-	const distanceKpc = pulsar.distanceKpc
-		? Number.parseFloat(pulsar.distanceKpc)
-		: null
+
+	const distanceKpc = Number.parseFloat(pulsar.distanceKpc)
 
 	return {
-		id: Number.parseInt(pulsar.id),
-		name: pulsar.name.trim(),
+		identifier: pulsar.name.trim(),
 		rightAscension,
 		rightAscensionErr: Number.parseFloat(pulsar.rightAscensionErr),
 		declination,
@@ -93,10 +94,6 @@ function transformPulsarCoordinates(pulsar: Pulsar): TransformedPulsar {
 			? Number.parseFloat(pulsar.distanceDmKpc)
 			: null,
 		position: (() => {
-			if (distanceKpc === null) {
-				return undefined
-			}
-
 			const rightAscensionRad = degreesToRadians(rightAscension)
 			const declinationRad = degreesToRadians(declination)
 
@@ -111,23 +108,20 @@ function transformPulsarCoordinates(pulsar: Pulsar): TransformedPulsar {
 	}
 }
 
-export const pulsars: TransformedPulsar[] = (() => {
+export const pulsars: Pulsar[] = (() => {
 	console.log('getting pulsars')
-	const rows = (pulsarsJson as unknown as Pulsar[])
+	const rows = (pulsarsJson as unknown as PulsarRaw[])
 		.map(row => camelcaseKeys(row, { deep: true }))
 		.map(row => {
 			return transformPulsarCoordinates(row)
 		})
-		.filter(
-			row =>
-				row.dm !== null && !Number.isNaN(row.periodS) && !Number.isNaN(row.dm)
-		)
+		.filter(row => row !== null) as Pulsar[]
 
 	console.log(rows)
 
 	return rows
 })()
 
-export const pulsarsById: Map<string, TransformedPulsar> = new Map(
-	pulsars.map(row => [row.id.toString(), row])
+export const pulsarsById: Map<string, Pulsar> = new Map(
+	pulsars.map(row => [row.identifier, row])
 )

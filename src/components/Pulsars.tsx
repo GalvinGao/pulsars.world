@@ -1,14 +1,14 @@
-import Pulsar from 'components/Pulsar'
+import PulsarObject from 'components/Pulsar'
 import { useAtom } from 'jotai'
 import { objectScaleAtom, timeScaleAtom } from 'models/atoms'
-import { TransformedPulsar } from 'models/pulsars'
+import { Pulsar } from 'models/pulsars'
 import * as THREE from 'three'
 
 const o = new THREE.Object3D()
 
 const scaleFactor = 2e2
 
-export function Pulsars({ pulsars }: { pulsars: TransformedPulsar[] }) {
+export function Pulsars({ pulsars }: { pulsars: Pulsar[] }) {
 	const [timeScale] = useAtom(timeScaleAtom)
 	const [objectScale] = useAtom(objectScaleAtom)
 	// const reference = useRef<InstancedMesh | null | undefined>(undefined)
@@ -54,7 +54,8 @@ export function Pulsars({ pulsars }: { pulsars: TransformedPulsar[] }) {
 				// 		{pulsar.name}, {(pulsar.distanceKpc ?? 0) * 1000}pc
 				// 	</Text>
 				// </mesh>
-				<Pulsar
+				<PulsarObject
+					id={pulsar.identifier}
 					position={[
 						pulsar.position!.x * scaleFactor,
 						pulsar.position!.y * scaleFactor,
@@ -67,7 +68,7 @@ export function Pulsars({ pulsars }: { pulsars: TransformedPulsar[] }) {
 						1 / 45
 					)}
 					intensity={1}
-					key={pulsar.id + ' ' + timeScale}
+					key={pulsar.identifier + '_' + timeScale}
 				/>
 			))}
 		</group>

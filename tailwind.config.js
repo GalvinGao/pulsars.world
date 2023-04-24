@@ -6,7 +6,8 @@ const config = {
 	content: ['index.html', 'src/**/*.tsx'],
 	theme: {
 		fontFamily: {
-			sans: ['Inter', ...defaultConfig.theme.fontFamily.sans]
+			sans: ['IBM Plex Sans', ...defaultConfig.theme.fontFamily.sans],
+			mono: ['IBM Plex Mono', ...defaultConfig.theme.fontFamily.mono]
 		}
 	},
 	experimental: { optimizeUniversalDefaults: true },

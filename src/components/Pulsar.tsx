@@ -1,5 +1,7 @@
 // Pulsar.tsx
 import { extend, useFrame, useThree } from '@react-three/fiber'
+import { useAtom } from 'jotai'
+import { selectedPulsarIdAtom } from 'models/atoms'
 import { useMemo, useRef } from 'react'
 import { ShaderMaterial } from 'three'
 
@@ -43,6 +45,7 @@ const pulsarMaterialShader = {
 }
 
 interface PulsarProperties {
+	id: string
 	position: [number, number, number]
 	scale: number
 	pulsePeriod: number
@@ -50,7 +53,8 @@ interface PulsarProperties {
 	intensity: number
 }
 
-export function Pulsar({
+export function PulsarObject({
+	id,
 	position,
 	scale,
 	pulsePeriod,
@@ -59,6 +63,7 @@ export function Pulsar({
 }: PulsarProperties) {
 	const material = useRef<ShaderMaterial>(null)
 	const mesh = useRef<THREE.Mesh>(null)
+	const [, setSelectedPulsarId] = useAtom(selectedPulsarIdAtom)
 
 	// useEffect(() => {
 	// 	if (!material.current || !mesh.current) return
@@ -66,6 +71,7 @@ export function Pulsar({
 	// 	material.current.uniforms.pulsePeriod.value = pulsePeriod
 	// 	material.current.uniforms.intensity.value = intensity
 	// }, [pulsePeriod, intensity])
+
 	const controls = useThree(state => state.controls) as any
 
 	useFrame(({ clock }) => {
@@ -95,27 +101,10 @@ export function Pulsar({
 			position={position}
 			scale={[scale, scale, scale]}
 			onClick={() => {
-				console.log('clicked', {
-					position,
-					scale,
-					pulsePeriod,
-					pulseDuration,
-					intensity
-				})
+				console.log('clicked pulsar', id)
 
-				// controls.panCamera({
-				// 	x: position[0],
-				// 	y: position[1],
-				// 	z: position[2] + 5
-				// })
-				// controls.zoomCamera(1.1)
-				// controls.rotateCamera(0, 0.1)
+				setSelectedPulsarId(id)
 
-				// controls.update()
-
-				// but controls is a CameraControls object
-
-				console.log(controls)
 				controls.moveTo(position[0], position[1], position[2] + 5, true)
 				controls.zoomTo(1.1, true)
 				controls.dollyTo(1.1, true)
@@ -131,4 +120,4 @@ export function Pulsar({
 	)
 }
 
-export default Pulsar
+export default PulsarObject
