@@ -160,7 +160,7 @@ function AboutPanel({ onClose }: { onClose: () => void }) {
 			initial={{ opacity: 0, x: 100, pointerEvents: 'none' }}
 			animate={{ opacity: 1, x: 16, pointerEvents: 'auto' }}
 			exit={{ opacity: 0, x: 100, pointerEvents: 'none' }}
-			className='absolute right-0 top-0 bottom-0 z-10 flex h-full w-80 flex-col bg-slate-900 p-4 pr-8 pb-0'
+			className='absolute right-0 top-0 bottom-0 z-10 flex h-full w-80 flex-col bg-slate-900 p-4 pr-8 pb-0 shadow-md'
 		>
 			<div className='mb-2 flex items-center justify-between'>
 				<h2 className='text-lg font-bold text-gray-100'>About</h2>
