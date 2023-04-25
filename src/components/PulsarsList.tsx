@@ -173,7 +173,7 @@ function AboutPanel({ onClose }: { onClose: () => void }) {
 				/>
 			</div>
 
-			<div className='flex flex-col gap-4'>
+			<div className='flex flex-col gap-4 overflow-auto pb-8'>
 				<Heading size='sm'>Acknowledgements</Heading>
 
 				<Text>
@@ -228,6 +228,14 @@ function AboutPanel({ onClose }: { onClose: () => void }) {
 						{
 							name: 'Material Design Icons',
 							url: 'https://materialdesignicons.com/'
+						},
+						{
+							name: 'IBM Plex Sans',
+							url: 'https://fonts.google.com/specimen/IBM+Plex+Sans'
+						},
+						{
+							name: 'IBM Plex Mono',
+							url: 'https://fonts.google.com/specimen/IBM+Plex+Mono'
 						}
 					]}
 				/>
