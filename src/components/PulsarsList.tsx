@@ -188,11 +188,11 @@ function AboutPanel({ onClose }: { onClose: () => void }) {
 					title='Pulsar Database & Tools'
 					credits={[
 						{
-							name: 'PSRCAT (Australia Telescope National Facility)',
+							name: 'ATNF Pulsar Catalogue (Australia Telescope National Facility)',
 							url: 'https://www.atnf.csiro.au/research/pulsar/psrcat/'
 						},
 						{
-							name: 'SIMBAD (Centre de Données astronomiques de Strasbourg)',
+							name: 'SIMBAD Astronomical Database (Centre de Données astronomiques de Strasbourg)',
 							url: 'http://simbad.u-strasbg.fr/simbad/'
 						}
 					]}
@@ -206,6 +206,10 @@ function AboutPanel({ onClose }: { onClose: () => void }) {
 							url: 'https://react.dev/'
 						},
 						{
+							name: 'THREE.js',
+							url: 'https://threejs.org/'
+						},
+						{
 							name: 'Virtuoso',
 							url: 'https://virtuoso.dev/'
 						},
@@ -216,6 +220,10 @@ function AboutPanel({ onClose }: { onClose: () => void }) {
 						{
 							name: 'Tailwind CSS',
 							url: 'https://tailwindcss.com/'
+						},
+						{
+							name: 'React Three Fiber',
+							url: 'https://docs.pmnd.rs/react-three-fiber/getting-started/introduction'
 						},
 						{
 							name: 'Material Design Icons',
