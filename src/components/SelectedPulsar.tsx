@@ -36,8 +36,8 @@ export function PulsarFacts({
 
 	return (
 		<motion.div
-			layout
-			className='flex w-96 flex-col gap-2 rounded-lg bg-gray-800 p-4 pt-3'
+			layoutRoot
+			className='relative flex w-96 flex-col gap-2 rounded-lg bg-gray-800 p-4 pt-3'
 		>
 			<div className='flex items-center justify-between'>
 				<div className='text-lg font-bold text-gray-100'>
@@ -47,6 +47,7 @@ export function PulsarFacts({
 					<CloseButton onClick={() => clearSelection()} />
 				</div>
 			</div>
+
 			<FactList
 				facts={[
 					{
@@ -63,8 +64,7 @@ export function PulsarFacts({
 			{expanded ? (
 				<motion.div
 					layout
-					layoutId={'pulsar-expanded:' + pulsar.identifier}
-					key='expanded'
+					layoutId={'pulsar-expansion:' + pulsar.identifier}
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					exit={{ opacity: 0 }}
@@ -96,9 +96,9 @@ export function PulsarFacts({
 										href={`http://simbad.u-strasbg.fr/simbad/sim-basic?Ident=PSR%20${pulsar.identifier}&submit=SIMBAD+search`}
 										target='_blank'
 										rel='noreferrer'
-										className='underline'
+										className='rounded-lg border-none bg-gray-700 px-2 py-1 text-gray-100 outline-blue-400 transition-all focus-within:outline-4 hover:bg-gray-600'
 									>
-										Link
+										PSR {pulsar.identifier}
 									</a>
 								)
 							}
@@ -108,12 +108,10 @@ export function PulsarFacts({
 			) : (
 				<motion.div
 					layout
-					layoutId={'pulsar-expanded:' + pulsar.identifier}
-					key='not-expanded'
+					layoutId={'pulsar-expansion:' + pulsar.identifier}
 					className='w-full'
 				>
 					<Button
-						key='not-expanded'
 						className='w-full'
 						size='sm'
 						onClick={() => setExpanded(true)}

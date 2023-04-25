@@ -11,7 +11,7 @@ const config = {
 		},
 		extend: {
 			transitionDuration: {
-				DEFAULT: '150ms'
+				DEFAULT: '100ms'
 			}
 		}
 	},

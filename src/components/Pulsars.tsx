@@ -61,7 +61,7 @@ export function Pulsars({ pulsars }: { pulsars: Pulsar[] }) {
 						pulsePeriod={pulsar.periodS * (1 / timeScale)}
 						pulseDuration={Math.max(
 							pulsar.periodS * (1 / timeScale) * 1e-2,
-							1 / 45
+							1 / 100
 						)}
 						intensity={1}
 						key={pulsar.identifier + '_' + timeScale}
