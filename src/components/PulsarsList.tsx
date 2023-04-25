@@ -182,8 +182,6 @@ function AboutPanel({ onClose }: { onClose: () => void }) {
 					not be possible.
 				</Text>
 
-				<Divider />
-
 				<CreditsSection
 					title='Pulsar Database & Tools'
 					credits={[
@@ -199,7 +197,7 @@ function AboutPanel({ onClose }: { onClose: () => void }) {
 				/>
 
 				<CreditsSection
-					title='Frontend'
+					title='Web Development'
 					credits={[
 						{
 							name: 'React',
@@ -224,7 +222,13 @@ function AboutPanel({ onClose }: { onClose: () => void }) {
 						{
 							name: 'React Three Fiber',
 							url: 'https://docs.pmnd.rs/react-three-fiber/getting-started/introduction'
-						},
+						}
+					]}
+				/>
+
+				<CreditsSection
+					title='Design Assets'
+					credits={[
 						{
 							name: 'Material Design Icons',
 							url: 'https://materialdesignicons.com/'
