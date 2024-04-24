@@ -1,6 +1,6 @@
 ![Screenshot](https://github.com/GalvinGao/pulsars.world/blob/main/docs/assets/screenshot.png?raw=true)
 
-# [`pulsars.world`](https://pulsars.world)
+# [`pulsars.imgg.dev`](https://pulsars.imgg.dev)
 
 ![Deploy workflow](https://github.com/GalvinGao/pulsars.world/actions/workflows/deploy-cfpages.yml/badge.svg) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/GalvinGao/pulsars.world/blob/main/LICENSE)
 

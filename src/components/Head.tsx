@@ -5,7 +5,7 @@ interface Properties {
 }
 export default function Head({ title }: Properties): null {
 	useEffect(() => {
-		document.title = `${title} | pulsars.world`
+		document.title = `${title} | pulsars.imgg.dev`
 	}, [title])
 
 	// eslint-disable-next-line unicorn/no-null

@@ -246,9 +246,9 @@ function AboutPanel({ onClose }: { onClose: () => void }) {
 
 				<Divider />
 
-				<Heading size='sm'>About pulsars.world</Heading>
+				<Heading size='sm'>About pulsars.imgg.dev</Heading>
 
-				<LinkButton href='https://github.com/GalvinGao/pulsars.world'>
+				<LinkButton href='https://github.com/GalvinGao/pulsars.imgg.dev'>
 					<Icon icon={mdiGithub} />
 					<span>Source Code on GitHub</span>
 				</LinkButton>
